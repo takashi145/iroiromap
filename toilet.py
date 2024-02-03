@@ -2,6 +2,7 @@ import pandas as pd
 from io import StringIO
 from bs4 import BeautifulSoup
 import folium
+from folium.plugins import MarkerCluster
 
 def replace_nan(value):
   return '-----' if pd.isna(value) else value
@@ -14,8 +15,16 @@ map = folium.Map(
 
 data = pd.read_csv('https://www.pref.yamagata.jp/documents/1570/public_toilet.csv', encoding="shift-jis")
 
+marker_cluster = MarkerCluster(
+    name='yamagata toilet',
+    overlay=True,
+    control=False,
+    icon_create_function=None
+)
+
 for _, row in data.iterrows():
-  popup=f"""
+  marker = folium.Marker([row['緯度'], row['経度']])
+  popup = f"""
   <div id="popup">
     <h3><ruby>{row['名称']}<rt>{row['名称_カナ']}</rt></ruby></h3>
     <p><b>住所</b> {replace_nan(row['住所'])}</p>
@@ -23,12 +32,10 @@ for _, row in data.iterrows():
     <p><b>備考</b> {replace_nan(row['備考'])}</p>
   </div>
   """
+  folium.Popup(popup).add_to(marker)
+  marker_cluster.add_child(marker)
 
-  folium.Marker(
-    [row['緯度'], row['経度']], 
-    popup=popup,
-    # icon=folium.Icon(color="green")
-  ).add_to(map)
+marker_cluster.add_to(map)
 
 map.save('yamagata-toilet.html')
 
