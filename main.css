@@ -1,0 +1,18 @@
+body {
+  margin: 0 auto;
+  padding: 0 auto;
+}
+
+#popup {
+  width: 300px;
+  font-size: 13px;
+}
+
+#popup h3 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#attribution {
+  padding: 10px;
+}
