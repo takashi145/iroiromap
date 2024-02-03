@@ -42,11 +42,15 @@ map.save('yamagata-toilet.html')
 with open('yamagata-toilet.html', 'r', encoding='utf-8') as file:
   soup = BeautifulSoup(file, 'html.parser')
 
+title = soup.new_tag('title')
+title.string = "山形県公衆トイレマップ"
+soup.head.append(title)
+
 link = soup.new_tag('link', rel="stylesheet", href="main.css")
 soup.head.append(link)
 
 title = soup.new_tag('h1')
-title.string = "山形県 公衆トイレマップ"
+title.string = "山形県公衆トイレマップ"
 soup.body.insert(0, title)
 
 text = """
