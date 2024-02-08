@@ -13,6 +13,21 @@ map = folium.Map(
   zoom_start=11
 )
 
+folium.plugins.LocateControl(
+  auto_start=False,
+  strings={
+    "title": "現在地を表示",
+    "popup": "現在地"
+  }
+).add_to(map)
+
+folium.plugins.Fullscreen(
+    position="topright",
+    title="Expand me",
+    title_cancel="Exit me",
+    force_separate_button=True,
+).add_to(map)
+
 data = pd.read_csv('https://www.city.sakata.lg.jp/shisei/opendata/opendata_aed.files/R5.12saisin.csv', encoding="cp932")
 
 marker_cluster = MarkerCluster(
@@ -54,6 +69,23 @@ soup.head.append(link)
 title = soup.new_tag('h1')
 title.string = "山形県酒田市AEDマップ"
 soup.body.insert(0, title)
+
+zoom_script = soup.new_tag("script")
+zoom_script.string = '''
+function zoomToCurrentLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var currentLocation = new L.LatLng(position.coords.latitude, position.coords.longitude);
+      map.setView(currentLocation, 15);
+    });
+  }
+}
+'''
+soup.body.append(zoom_script)
+
+zoom_button = soup.new_tag("button", onclick="zoomToCurrentLocation()")
+zoom_button.string = "現在地にズーム"
+soup.body.insert(1, zoom_button)
 
 text = """
 <p id="attribution">この「山形県酒田市AEDマップ」は、酒田市オープンデータの酒田市所管施設AED設置状況、酒田市、クリエ

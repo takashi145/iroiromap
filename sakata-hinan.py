@@ -13,6 +13,21 @@ map = folium.Map(
   zoom_start=11
 )
 
+folium.plugins.LocateControl(
+  auto_start=False,
+  strings={
+    "title": "現在地を表示",
+    "popup": "現在地"
+  }
+).add_to(map)
+
+folium.plugins.Fullscreen(
+    position="topright",
+    title="Expand me",
+    title_cancel="Exit me",
+    force_separate_button=True,
+).add_to(map)
+
 data = pd.read_csv('data/hinan.csv')
 sakata_data = data[(data['都道府県名及び市町村名'] == '山形県酒田市')]
 
