@@ -70,23 +70,6 @@ title = soup.new_tag('h1')
 title.string = "山形県酒田市AEDマップ"
 soup.body.insert(0, title)
 
-zoom_script = soup.new_tag("script")
-zoom_script.string = '''
-function zoomToCurrentLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var currentLocation = new L.LatLng(position.coords.latitude, position.coords.longitude);
-      map.setView(currentLocation, 15);
-    });
-  }
-}
-'''
-soup.body.append(zoom_script)
-
-zoom_button = soup.new_tag("button", onclick="zoomToCurrentLocation()")
-zoom_button.string = "現在地にズーム"
-soup.body.insert(1, zoom_button)
-
 text = """
 <p id="attribution">この「山形県酒田市AEDマップ」は、酒田市オープンデータの酒田市所管施設AED設置状況、酒田市、クリエ
 イティブ・コモンズ・ライセンス 表示 4.0 国際ライセンスを利用しています。
