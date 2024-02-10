@@ -74,7 +74,7 @@ map.save("hinan.html")
 with open("hinan.html", 'r', encoding='utf-8') as file:
   soup = BeautifulSoup(file, 'html.parser')
 
-link = soup.new_tag('link', rel="stylesheet", href="../main.css")
+link = soup.new_tag('link', rel="stylesheet", href="main.css")
 soup.head.append(link)
 
 title = soup.new_tag('title')
