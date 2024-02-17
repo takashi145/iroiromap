@@ -47,6 +47,7 @@ for _, row in data.iterrows():
     <p><b>設置位置</b> {replace_nan(row['設置位置'])}</p>
     <p><b>台数</b> {replace_nan(row['台数'])}</p>
     <p><b>備考</b> {replace_nan(row['備考'])}</p>
+    <a href="http://local.google.co.jp/maps?q={row['住所']}" target="_blank" rel="noopener noreferrer">Googleマップで表示</a>
   </div>
   """
   folium.Popup(popup).add_to(marker)

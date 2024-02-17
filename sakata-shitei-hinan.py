@@ -39,7 +39,12 @@ marker_cluster = MarkerCluster(
 
 for _, row in data.iterrows():
   marker = folium.Marker([row['緯度'], row['経度']])
-  popup = f"<div style='width: 100px'>{row['名称']}</div>"
+  popup = f"""
+    <div style='width: 100px'>
+      <h3>{row['名称']}<h3>
+      <a href="http://local.google.co.jp/maps?q={row['緯度']},{row['経度']}"  target="_blank" rel="noopener noreferrer">Googleマップで表示</a>
+    </div>
+  """
   folium.Popup(popup).add_to(marker)
   marker_cluster.add_child(marker)
 
