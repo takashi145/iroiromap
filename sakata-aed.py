@@ -35,10 +35,17 @@ marker_cluster = MarkerCluster(
     overlay=True,
     control=False,
     icon_create_function=None
-)
+).add_to(map)
 
 for _, row in data.iterrows():
-  marker = folium.Marker([row['緯度'], row['経度']])
+  marker = folium.Marker(
+    location=[row['緯度'], row['経度']],
+    icon=folium.CustomIcon(
+      icon_image="./images/aed.png",
+      icon_size=(30, 30),
+    )
+  ).add_to(map)
+
   popup = f"""
   <div id="popup">
     <h3>{row['設置場所']}</h3>
@@ -52,8 +59,6 @@ for _, row in data.iterrows():
   """
   folium.Popup(popup).add_to(marker)
   marker_cluster.add_child(marker)
-
-marker_cluster.add_to(map)
 
 map.save('sakata-aed.html')
 
